@@ -1,0 +1,16 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Continuous Git Push on Save",
+      "trigger": "PostFileSave",
+      "description": "Auto-stages, commits, and pushes to origin/main whenever a project source/config file is saved (skips when there is nothing to commit).",
+      "matcher": "\\.(jsx?|tsx?|css|html|json|md|toml|svg)$",
+      "action": {
+        "type": "command",
+        "command": "git add -A && (git diff --cached --quiet || (git commit -m \"chore: autosave $(date '+%Y-%m-%d %H:%M:%S')\" && git push origin main))",
+        "timeout": 90
+      }
+    }
+  ]
+}
