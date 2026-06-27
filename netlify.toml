@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# SPA fallback so client-side navigation resolves correctly
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Optional: site-level password protection (Netlify paid feature).
+# Uncomment and configure in Netlify UI, or rely on the in-app shared-password gate.
+# [[headers]]
+#   for = "/*"
+#   [headers.values]
+#     Basic-Auth = "user:password"

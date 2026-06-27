@@ -1,0 +1,317 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   MIND SPACE — Design System
+   Dark, editorial, luxurious. Layered graphite + smoked glass.
+   ============================================================ */
+
+@layer base {
+  :root {
+    --bg: #070708;
+    --bg-soft: #0b0b0d;
+    --surface: #15151a;
+    --accent-teal: #39bdac;
+    --accent-gold: #c9a96a;
+    --accent-plum: #9a6fa0;
+    --ivory: #f5f1e8;
+    color-scheme: dark;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--ivory);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Ambient base gradient that lives behind everything */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(1200px 800px at 12% -10%, rgba(57, 189, 172, 0.10), transparent 55%),
+      radial-gradient(1000px 700px at 100% 0%, rgba(154, 111, 160, 0.10), transparent 55%),
+      radial-gradient(900px 900px at 50% 120%, rgba(201, 169, 106, 0.07), transparent 60%),
+      var(--bg);
+  }
+
+  /* Fine film grain for that printed-magazine texture */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: var(--tw-grain, none);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    background: rgba(201, 169, 106, 0.28);
+    color: #fff;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  /* Smoked-glass surface */
+  .glass {
+    background: linear-gradient(
+      180deg,
+      rgba(31, 31, 38, 0.66),
+      rgba(16, 16, 20, 0.55)
+    );
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-strong {
+    background: linear-gradient(
+      180deg,
+      rgba(36, 36, 44, 0.86),
+      rgba(18, 18, 23, 0.82)
+    );
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Hairline card with subtle top sheen */
+  .card-surface {
+    position: relative;
+    background: linear-gradient(180deg, #16161b 0%, #121216 100%);
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 1.25rem;
+  }
+  .card-surface::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.14),
+      transparent
+    );
+    border-radius: inherit;
+  }
+
+  /* Gradient text for accents */
+  .text-gradient {
+    background: linear-gradient(120deg, #6fe3d2 0%, #e7cf9a 50%, #c89ccb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  .text-gradient-gold {
+    background: linear-gradient(120deg, #e7cf9a, #c9a96a 60%, #8f7642);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Eyebrow / kicker label */
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: #b7b2a6;
+  }
+
+  /* Hairline divider */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.12),
+      transparent
+    );
+  }
+
+  /* Light-sweep on hover */
+  .sweep {
+    position: relative;
+    overflow: hidden;
+  }
+  .sweep::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    transform: skewX(-20deg);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.09),
+      transparent
+    );
+    transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .sweep:hover::after {
+    left: 150%;
+  }
+
+  /* Thin pill button */
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm text-ivory-muted transition-all duration-300;
+  }
+  .btn-ghost:hover {
+    @apply border-white/25 text-ivory;
+    box-shadow: 0 0 30px -10px rgba(201, 169, 106, 0.4);
+  }
+}
+
+@layer utilities {
+  .text-shadow-soft {
+    text-shadow: 0 2px 40px rgba(0, 0, 0, 0.55);
+  }
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+    mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  }
+  .perspective {
+    perspective: 1200px;
+  }
+}
+
+/* ---------- Custom scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0b0d;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2a2a32, #1c1c22);
+  border: 2px solid #0b0b0d;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #39bdac55, #9a6fa055);
+}
+
+/* ---------- Masonry columns for galleries ---------- */
+.masonry {
+  column-gap: 1.1rem;
+}
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 1.1rem;
+}
+
+/* ---------- Code blocks (highlight.js base override) ---------- */
+.hljs {
+  background: transparent;
+  color: #d6d3c8;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name {
+  color: #c89ccb;
+}
+.hljs-string,
+.hljs-attr,
+.hljs-template-tag {
+  color: #6fe3d2;
+}
+.hljs-number,
+.hljs-literal,
+.hljs-symbol {
+  color: #e7cf9a;
+}
+.hljs-comment,
+.hljs-quote {
+  color: #6b6960;
+  font-style: italic;
+}
+.hljs-function .hljs-title,
+.hljs-title,
+.hljs-section {
+  color: #e7cf9a;
+}
+.hljs-attribute,
+.hljs-variable,
+.hljs-params {
+  color: #d6d3c8;
+}
+.hljs-meta {
+  color: #9a6fa0;
+}
+
+/* ---------- Native range input (media players) ---------- */
+input[type='range'].media-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+}
+input[type='range'].media-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #f5f1e8;
+  box-shadow: 0 0 12px rgba(201, 169, 106, 0.7);
+}
+input[type='range'].media-range::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border: none;
+  border-radius: 50%;
+  background: #f5f1e8;
+  box-shadow: 0 0 12px rgba(201, 169, 106, 0.7);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
