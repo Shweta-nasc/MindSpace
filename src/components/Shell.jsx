@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Navigation from './Navigation'
+import Atmosphere from './atmosphere/Atmosphere'
 import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../context/ThemeContext'
 import { pageTransition } from '../lib/motion'
 
 import HomeDashboard from './sections/HomeDashboard'
@@ -34,7 +36,7 @@ const REGISTRY = {
 
 export default function Shell() {
   const { lock } = useAuth()
-  const [active, setActive] = useState('home')
+  const { sectionId: active, setSection } = useTheme()
   const [ambient, setAmbient] = useState(false)
 
   // Scroll to top on every section change.
@@ -46,9 +48,12 @@ export default function Shell() {
 
   return (
     <div className="relative min-h-[100dvh]">
+      {/* Per-section animated atmosphere (fixed, behind everything) */}
+      <Atmosphere />
+
       <Navigation
         active={active}
-        onNavigate={setActive}
+        onNavigate={setSection}
         onLock={lock}
         ambient={ambient}
         onToggleAmbient={() => setAmbient((a) => !a)}
@@ -80,7 +85,7 @@ export default function Shell() {
       </AnimatePresence>
 
       {/* Main content */}
-      <main className="pt-16 lg:pl-[252px] lg:pt-0">
+      <main className="relative z-10 pt-16 lg:pl-[252px] lg:pt-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={active}
@@ -89,7 +94,7 @@ export default function Shell() {
             animate="animate"
             exit="exit"
           >
-            <Section onNavigate={setActive} />
+            <Section onNavigate={setSection} />
           </motion.div>
         </AnimatePresence>
 

@@ -11,3 +11,9 @@ export const imgMono = (seed, w = 800, h = 1000) =>
 
 // A tiny blurred placeholder (low-res) for blur-up loading.
 export const imgBlur = (seed) => `https://picsum.photos/seed/${encodeURIComponent(seed)}/20/25`
+
+// Topical imagery for the floating cutout system. LoremFlickr returns a
+// keyword-matched photo; `lock` keeps a given cutout stable across renders.
+// Falls back gracefully (the cutout simply fades away) if it fails to load.
+export const cutoutImg = (keyword, lock, w = 420, h = 520) =>
+  `https://loremflickr.com/${w}/${h}/${encodeURIComponent(keyword)}?lock=${lock}`

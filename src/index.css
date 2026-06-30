@@ -315,3 +315,76 @@ input[type='range'].media-range::-moz-range-thumb {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   ATMOSPHERE SYSTEM — per-section ambient backdrop
+   GPU-accelerated transforms only (translate / rotate / scale).
+   ============================================================ */
+
+@layer utilities {
+  .gpu {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* Slow mesh drift — barely perceptible breathing motion */
+@keyframes atmo-drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50% { transform: translate3d(2.5%, -2%, 0) scale(1.12); }
+}
+@keyframes atmo-drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.08); }
+  50% { transform: translate3d(-3%, 2.5%, 0) scale(1.0); }
+}
+
+/* Floating blurred blobs */
+@keyframes blob-float-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(4vw, 5vh, 0) scale(1.12); }
+  66% { transform: translate3d(-3vw, -3vh, 0) scale(0.95); }
+}
+@keyframes blob-float-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.05); }
+  50% { transform: translate3d(-5vw, 4vh, 0) scale(1.18); }
+}
+@keyframes blob-float-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(0.95); }
+  50% { transform: translate3d(3vw, -5vh, 0) scale(1.1); }
+}
+
+/* Light ray slow sweep */
+@keyframes ray-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Moving grain — tiny continuous jitter */
+@keyframes grain-shift {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-3%, 2%, 0); }
+  50% { transform: translate3d(2%, -3%, 0); }
+  75% { transform: translate3d(-2%, -2%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* Decoration gentle float + drift */
+@keyframes decor-float {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(var(--decor-rot, 0deg)); }
+  50% { transform: translate3d(0, -22px, 0) rotate(calc(var(--decor-rot, 0deg) + 4deg)); }
+}
+
+.atmo-mesh-a { animation: atmo-drift-a 26s ease-in-out infinite; }
+.atmo-mesh-b { animation: atmo-drift-b 32s ease-in-out infinite; }
+.atmo-ray { animation: ray-sweep 90s linear infinite; }
+.atmo-grain-move { animation: grain-shift 7s steps(6) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .atmo-mesh-a,
+  .atmo-mesh-b,
+  .atmo-ray,
+  .atmo-grain-move {
+    animation: none !important;
+  }
+}
